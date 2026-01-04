@@ -120,6 +120,25 @@ db.on("child_added", snap => {
   document.getElementById("chat").scrollTop =
     document.getElementById("chat").scrollHeight;
 });
+   db.on("child_added", snap => {
+  const data = snap.val();
+
+  // Hiển thị tin nhắn
+  const div = document.createElement("div");
+  div.className = "msg";
+  div.innerHTML = `<div class="name">${data.name}</div>${data.msg}`;
+  document.getElementById("chat").appendChild(div);
+  document.getElementById("chat").scrollTop =
+    document.getElementById("chat").scrollHeight;
+
+  // 🔔 Thông báo nếu không phải tin của mình
+  if (data.name !== user && Notification.permission === "granted") {
+    new Notification("💬 UChat", {
+      body: `${data.name}: ${data.msg}`,
+      icon: "https://cdn-icons-png.flaticon.com/512/2462/2462719.png"
+    });
+  }
+});
 </script>
 
 </body>
