@@ -110,13 +110,16 @@ function send() {
   document.getElementById("text").value = "";
 }
 
-  // Hiển thị tin nhắn
+// Receive message
+db.on("child_added", snap => {
+  const data = snap.val();
   const div = document.createElement("div");
   div.className = "msg";
   div.innerHTML = `<div class="name">${data.name}</div>${data.msg}`;
   document.getElementById("chat").appendChild(div);
   document.getElementById("chat").scrollTop =
     document.getElementById("chat").scrollHeight;
+});
 
   // 🔔 Thông báo nếu không phải tin của mình
   if (data.name !== user && Notification.permission === "granted") {
@@ -129,4 +132,4 @@ function send() {
 </script>
 
 </body>
-  </html>
+</html>
